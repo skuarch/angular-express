@@ -1,9 +1,10 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
+var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const log4js = require('log4js');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -17,15 +18,20 @@ app.engine('html', require('hbs').__express);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+log4js.configure({
+  appenders: { 
+    myapp: { type: 'file', filename: 'myapp.log' }, 
+    out: { type: 'stdout' } },
+  categories: { default: { appenders: ['myapp', 'out'], level: 'error' } }
+});
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/', index);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, './../angular/dist')));
 
-
+app.use('/', index);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
