@@ -1,0 +1,12 @@
+{
+  "name": "ae",
+  "version": "1.0.0",
+  "description": "",
+  "main": "express/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./bash-scripts/build.sh"
+  },
+  "author": "",
+  "license": "ISC"
+}
